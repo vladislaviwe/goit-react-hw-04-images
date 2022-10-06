@@ -1,5 +1,4 @@
 import { GalleryItem, GalleryItemImage } from "./ImageGalleryItemStyled"
-
 import PropTypes from "prop-types";
 
 export default function ImageGalleryItem({ webformatURL, tags, onClick }) {
