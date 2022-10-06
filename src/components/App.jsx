@@ -10,6 +10,36 @@ import Button from './Button/Button';
 import Searchbar from './Searchbar/Searchbar';
 import Modal from './Modal/Modal';
 
+export default function App() {
+
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [searchName, setSearchName] = useState("");
+  const [isItems, setIsItems] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [largeModalImgURL, setlargeModalImgURL] = useState("");
+  const [modalTags, setmodalTags] = useState("");
+
+
+  const isImages = Boolean(items.length);
+
+  return (
+    <Container>
+        {modalOpen && <Modal tags={modalTags} largeImageURL={largeModalImgURL} onClose={closeModal}/>}
+        <Searchbar onSearch={onSearch}/>
+        {loading && <Loader />}
+        {error && <h2>Oops, something went wrong. Please try to reload the page</h2>}
+        {isImages && <ImageGallery items={items} onClick={openModal}/>}
+        {!isItems && !isImages && <h2>We didn't find any images for "{searchName}"</h2>}
+        {isImages && isItems && items.length % 12 === 0 && <Button loadMore={loadMore}/>}
+        {items.length % 12 !== 0 && <h2>There are no more images for your search query</h2>}
+    </Container>
+  )
+}
+
+
 export default class App extends Component {
 
   state = {
