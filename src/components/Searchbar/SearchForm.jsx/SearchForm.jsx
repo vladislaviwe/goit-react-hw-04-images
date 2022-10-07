@@ -1,61 +1,47 @@
-import { Component } from 'react'
-
 import { Form, FormButton, FormButtonLabel, FormInput } from './SearchFormStyled';
 
 import { HiOutlineSearch } from "react-icons/hi";
 
 import PropTypes from "prop-types";
+import { useState } from 'react';
 
-export default class SearchForm extends Component {
-  state = {
-    searchName: "",
+export default function SearchForm({onSubmit}) {
+  const [searchName, setSearchName] = useState("");
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearchName(value);
   }
 
-  handleChange = (e) => {
-    const { value, name } = e.target;
-    this.setState({
-      [name]: value,
-    })
-  }
-
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { onSubmit } = this.props;
-    onSubmit({...this.state});
-    this.reset()
+    onSubmit(searchName);
+    reset()
   }
 
-  reset() {
-    this.setState({
-      searchName: ""
-    })
+  const reset = () => {
+    setSearchName("");
   }
-  
-  render() {
-    const { searchName } = this.state;
-    const { handleSubmit, handleChange } = this;
 
+  return (
+    <Form onSubmit={handleSubmit}>
+        <FormButton type="submit" onClick={handleSubmit}>
+            <HiOutlineSearch />
+            <FormButtonLabel></FormButtonLabel>
+        </FormButton>
 
-    return (
-        <Form onSubmit={handleSubmit}>
-            <FormButton type="submit" onClick={handleSubmit}>
-                <HiOutlineSearch />
-                <FormButtonLabel></FormButtonLabel>
-            </FormButton>
-
-            <FormInput
-                value={searchName}
-                onChange={handleChange}
-                name="searchName"
-                type="text"
-                autocomplete="off"
-                autoFocus
-                placeholder="Search images and photos"
-                required
-            />
-        </Form>
-    )
-  }
+        <FormInput
+            value={searchName}
+            onChange={handleChange}
+            name="searchName"
+            type="text"
+            autocomplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            required
+        />
+    </Form>
+  )
 }
 
 SearchForm.propTypes = {
