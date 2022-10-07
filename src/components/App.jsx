@@ -52,7 +52,8 @@ export default function App() {
         if (page === 1 && searchName) {
           setItems([...searchData.hits]);
         }
-        if (searchName) {
+        if (page !== 1 && searchName) {
+          console.log(searchData.hits);
           setItems((prev) => [...prev, ...searchData.hits]);
         } 
       } 
